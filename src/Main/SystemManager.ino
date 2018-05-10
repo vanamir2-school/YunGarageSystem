@@ -5,10 +5,11 @@
 
 // perform check of smoke sensors and move to stateManage
 void runSystem(){
-        if( !areSmokeSensorsWorking() ) {
+        if( !areSmokeSensorsWorking() && state != EMERGENCY ) {
                 Serial.println("EMERGENCY - Propably sensor failure, or circuit cut off.");
                 state = EMERGENCY;
-                timeStampSystemManager = millis();
+                changeNextState(EMERGENCY);
+                tone(BUZZER_PIN, BUZZER_FREQUENCY_EMERG);
         }
         stateManage();
         digitalWrite(LED_PIN, isGarageUnlocked());
